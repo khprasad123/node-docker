@@ -1,0 +1,108 @@
+docker build -t node-app-image .
+docker image ls
+docker image rm a47c59f0f969
+docker run -p 4000:3000 -d --name node-app node-app-image
+docker ps -a
+docker exec -it node-app bash
+docker rm node-app -f
+docker rm node-app -fv   - delete the volume too 
+ 
+docker logs node-app
+docker volume prune - delete all volume
+docker volume rm "volume id"
+----------------DOCKER RUN -------------------------------------------
+docker run -v D:\Workspace\DEVOPS_NODE_DOCKER\Demo:/app -v /app/node_modules -p 4000:3000 -d --name node-app node-app-image
+OR
+docker run -v ${pwd}:/app -p 4000:3000 -d --name node-app node-app-image
+docker run -v ${pwd}:/app -v /app/node_modules -p 4000:3000 -d --name node-app node-app-image    -- bind mode
+OR
+docker run -v %cd%:/app -p 4000:3000 -d --name node-app node-app-image
+OR
+docker run -v D:\Workspace\DEVOPS_NODE_DOCKER\Demo:/app:ro -v /app/node_modules -p 4000:3000 -d --name node-app node-app-image  -- read only file system
+OR
+docker run -v D:\Workspace\DEVOPS_NODE_DOCKER\Demo:/app -v /app/node_modules --env PORT=4000 -p 3000:4000 -d --name node-app node-app-image  -- passing env variable
+OR
+docker run -v D:\Workspace\DEVOPS_NODE_DOCKER\Demo:/app -v /app/node_modules --env-file ./.env -p 3000:4000 -d --name node-app node-app-image  -- passing env variable as file
+OR
+docker-compose up -d   --- using docker compose
+docker-compose up --help   - see different options in 
+docker-compose down -v  -- deleting the container and PVC using docker compose
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build    - forcing to rebuild the image ( only needed for production)
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+_________________________________________________________________________
+
+
+npm install nodemon --save-dev     --- only for dev needed
+
+
+CMD ["node", "index.js"]  --
+
+
+_________________________________________________________________________
+
+MONGO DB
+
+> db
+test
+> use mydb
+switched to db mydb
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.books.insert({"name": "hariprasad"})
+WriteResult({ "nInserted" : 1 })
+> db.books.find()
+{ "_id" : ObjectId("60db1d1f99cdb8c2e8ac68f4"), "name" : "hariprasad" }
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+mydb    0.000GB
+>
+
+
+
+docker exec -it demo_with_mongo_mongo_1 mongo -u "hari" -p "mypassword"
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d     --- do not use -v , this will delete the persistant data in mongo 
+docker volume prune --  run only when all the containers are running , else it will delete the currently used volumes
+docker inspect docker_app
+docker network ls   
+docker network inspect 10ce96c26d4a
+docker logs demo_with_mongo_node-app_1
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --no-deps node-app   # without running the dependedent linked services  -- only specified services 
+
+
+_________________________________________________________________________
+
+MISC - 
+NODEMON - saving dynamic file changes 
+bcryptjs - for encryption 
+mongoose - for database opertations in mongo db
+express-session - Authentication 
+redis - database
+
+npm install redis connect-redis express-session   
+https://www.npmjs.com/package/connect-redis
+
+root@626cb6e795ee:/data# redis-cli
+127.0.0.1:6379> KEYS *
+(empty array)
+127.0.0.1:6379> KEYS *
+1) "sess:4mwZvSzX0oDahD59qmVOZSYHhqsztW0e"
+127.0.0.1:6379> GET "sess:4mwZvSzX0oDahD59qmVOZSYHhqsztW0e"
+"{\"cookie\":{\"originalMaxAge\":30000,\"expires\":\"2021-06-29T16:37:10.257Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"}}"
+127.0.0.1:6379>
+
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V    #create a brand new anonymous volume
+
+docker system prune -a  # delete images, volume, network etcc which are dangling 
+docker images -f dangling=true 
+docker image prune
+docker images -a |  grep "pattern"
+docker images -a  # removes all images
+
+_________________________________________________________________________

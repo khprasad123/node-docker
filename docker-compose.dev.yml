@@ -1,0 +1,23 @@
+version: "3"
+services: 
+    nginx:
+        ports: 
+            - "3000:80"
+    node-app:
+        build:
+            context: .   # Specifies the location of docker files
+            args:
+                NODE_ENV: development  # Argument we are using in the Docker file
+        volumes: 
+            - ./:/app     #bind mount - data within the container   , -- path on local machine to path to container
+            - /app/node_modules   # anonumous volume for persisting node_modules- path to the container
+        environment: 
+            - NODE_ENV=development
+            - MONGO_USER=hari
+            - MONGO_PASSWORD=mypassword
+            - SESSION_SECRET=secret
+        command: npm run dev
+    mongo:
+        environment: 
+                - MONGO_INITDB_ROOT_USERNAME=hari
+                - MONGO_INITDB_ROOT_PASSWORD=mypassword
