@@ -98,7 +98,7 @@ root@626cb6e795ee:/data# redis-cli
 
 
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V    #create a brand new anonymous volume
-
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 docker system prune -a  # delete images, volume, network etcc which are dangling 
 docker images -f dangling=true 
 docker image prune
