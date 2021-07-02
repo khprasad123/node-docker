@@ -110,4 +110,17 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --force-recreate --no-deps node-app  # forcfully recreate node-app
 docker image tag demo_with_mongo_crud_load_balancer_node-app khprasad123/node-app   # create  a image for pushing to docker hub
 
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build node-app  #just build node-app for docker-hub
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml push node-app   # just push the node-app 
+
+#automatically pull image when there is a production build is pushed to docker hub -google --  DOCKER WATCH TOWER 
+docker run -d --name watchtower -e WATCHTOWER_TRACE=true -e WATCHTOWER_DEBUG=true -e WATCHTOWER_POLL_INTERVAL=50 -v /var/run/docker.sock:/var/docker.sock containrrr/watchtower
+
+#if docker not able to start container 
+    error eg :
+        time="2021-07-02T15:04:57Z" level=debug msg="Retrieving running containers"
+        time="2021-07-02T15:04:57Z" level=debug msg="FIXME: Got an status-code for which error does not match any expected type!!!: -1" module=api status_code=-1
+        time="2021-07-02T15:04:57Z" level=error msg="Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?"
+#solution : https://docs.docker.com/config/daemon/   &  https://phoenixnap.com/kb/cannot-connect-to-the-docker-daemon-error
+https://containrrr.dev/watchtower/
 _________________________________________________________________________
