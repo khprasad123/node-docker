@@ -124,3 +124,19 @@ docker run -d --name watchtower -e WATCHTOWER_TRACE=true -e WATCHTOWER_DEBUG=tru
 #solution : https://docs.docker.com/config/daemon/   &  https://phoenixnap.com/kb/cannot-connect-to-the-docker-daemon-error
 https://containrrr.dev/watchtower/
 _________________________________________________________________________
+
+
+DOCKER SWARM - Container Orchastrator by Docker
+docker info   - check docker-swarm inactive or not   - GIVES all details of the containers, images etc..
+docker swarm init
+docker service --help   # to get all commands
+------------------------------------
+ubuntu@ip-172-31-60-212:~/watchtower$ docker swarm init
+Swarm initialized: current node (iq3atih0bo9g9562qn2jhya5p) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-19a7lltxt2rekow4ff0opn5uvg9nivafq2qn3fjz4ejf7r8hed-buuftppqob27nw2wuvr65j164 172.31.60.212:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+-----------------------------------------
