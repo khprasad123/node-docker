@@ -105,4 +105,9 @@ docker image prune
 docker images -a |  grep "pattern"
 docker images -a  # removes all images
 
+
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --no-deps  node-app   # only node-app is rebuilded
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --force-recreate --no-deps node-app  # forcfully recreate node-app
+docker image tag demo_with_mongo_crud_load_balancer_node-app khprasad123/node-app   # create  a image for pushing to docker hub
+
 _________________________________________________________________________
